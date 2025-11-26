@@ -1,2 +1,2 @@
-# viskx
-A visually termial user interface for recognizing voice and turn it into text using vosk-api
+# VisionX-Docs
+the docs and everything relates to our computer vision project "VisionX"
