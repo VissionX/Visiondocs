@@ -1,0 +1,61 @@
+sequenceDiagram
+    participant User
+    participant UI as KivyMD UI
+    participant Supervisor
+    participant Speech as VoskSpeechRecognition
+    participant TTS as Pyttsx3TTS
+    participant Camera as OpenCVCamera
+    participant Vision as YOLOVisionService
+    participant UseCase as GenerateDescriptionUseCase
+    
+    Note over User,UseCase: Application Startup
+    User->>UI: Launch App
+    UI->>Supervisor: initialize()
+    Supervisor->>TTS: Initialize
+    Supervisor->>Speech: Initialize
+    Supervisor->>Camera: Initialize
+    Supervisor->>Vision: warm_up()
+    Vision-->>Supervisor: Ready
+    Supervisor->>TTS: speak("Ready. Say start")
+    TTS-->>User: 🔊 "Ready. Say start to detect objects"
+    Supervisor->>Speech: start_listening(callback)
+    UI-->>User: Display "Listening..."
+    
+    Note over User,UseCase: Detection Cycle
+    User->>User: Says "start"
+    Speech->>Speech: Audio Input
+    Speech->>Speech: Vosk Processes Audio
+    Speech->>Speech: Recognizes "start"
+    Speech->>Supervisor: callback(VoiceCommand)
+    
+    Supervisor->>Supervisor: Check Cooldown (3s)
+    Supervisor->>Supervisor: Update Last Detection Time
+    Supervisor->>UI: Update Status "Detecting..."
+    Supervisor->>TTS: speak("Detecting")
+    TTS-->>User: 🔊 "Detecting"
+    
+    Supervisor->>Camera: open()
+    Camera-->>Supervisor: Camera Ready
+    Supervisor->>Camera: read_frame()
+    Camera-->>Supervisor: CameraFrame
+    
+    Supervisor->>Vision: detect_objects(frame)
+    Vision->>Vision: YOLO Inference
+    Vision->>Vision: Filter by confidence > 0.5
+    Vision-->>Supervisor: CameraFrame with Detections
+    
+    Supervisor->>UseCase: execute(detections)
+    UseCase->>UseCase: Group by class_name
+    UseCase->>UseCase: Count objects
+    UseCase->>UseCase: Build natural language
+    UseCase-->>Supervisor: "I see a person and a laptop"
+    
+    Supervisor->>TTS: speak(description)
+    TTS-->>User: 🔊 "I see a person and a laptop"
+    
+    Supervisor->>Camera: release()
+    Supervisor->>UI: Update Status "Listening..."
+    UI-->>User: Display "Listening..."
+    
+    Note over User,UseCase: Ready for Next Command
+    Speech->>Speech: Continues Listening...

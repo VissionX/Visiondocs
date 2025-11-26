@@ -1,0 +1,72 @@
+graph TB
+    subgraph "Presentation Layer"
+        UI[KivyMD UI<br/>app/main.py]
+        Button[Microphone Button]
+        Status[Status Label]
+    end
+    
+    subgraph "Orchestration Layer"
+        Supervisor[VisionSupervisor<br/>orchestrator/supervisor.py]
+    end
+    
+    subgraph "Domain Layer"
+        UC1[ProcessFrameUseCase]
+        UC2[GenerateDescriptionUseCase]
+        Entities[Entities<br/>Detection, CameraFrame, VoiceCommand]
+    end
+    
+    subgraph "Services Layer"
+        Camera[Camera Service<br/>services/camera.py<br/>OpenCVCamera]
+        Vision[Vision Service<br/>services/vision.py<br/>YOLOVisionService]
+        Audio[Audio Service<br/>services/audio.py<br/>Pyttsx3TTS]
+        Speech[Speech Recognition<br/>services/speech_recognition.py<br/>VoskSpeechRecognition]
+    end
+    
+    subgraph "Infrastructure Layer"
+        Config[Configuration<br/>infra/config.py]
+        YOLOModel[YOLO Model<br/>yolov8n.pt]
+        VoskModel[Vosk Model<br/>model/]
+    end
+    
+    subgraph "External Hardware"
+        Mic[Microphone]
+        Cam[Camera]
+        Speaker[Speaker]
+    end
+    
+    UI --> Supervisor
+    Button --> Supervisor
+    Status --> Supervisor
+    
+    Supervisor --> UC1
+    Supervisor --> UC2
+    Supervisor --> Camera
+    Supervisor --> Vision
+    Supervisor --> Audio
+    Supervisor --> Speech
+    
+    UC1 --> Vision
+    UC1 --> Entities
+    UC2 --> Entities
+    
+    Camera --> Cam
+    Vision --> YOLOModel
+    Audio --> Speaker
+    Speech --> VoskModel
+    Speech --> Mic
+    
+    Config --> Supervisor
+    Config --> Camera
+    Config --> Vision
+    Config --> Audio
+    Config --> Speech
+    
+    style UI fill:#E3F2FD
+    style Supervisor fill:#FFF3E0
+    style UC1 fill:#F3E5F5
+    style UC2 fill:#F3E5F5
+    style Camera fill:#E8F5E9
+    style Vision fill:#E8F5E9
+    style Audio fill:#E8F5E9
+    style Speech fill:#E8F5E9
+    style Config fill:#FFF9C4

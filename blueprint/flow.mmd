@@ -1,0 +1,71 @@
+graph TD
+    Start([App Starts]) --> Init[Initialize VisionX App]
+    Init --> LoadConfig[Load Config<br/>Camera ID, YOLO Model, etc.]
+    LoadConfig --> CreateSupervisor[Create VisionSupervisor]
+    
+    CreateSupervisor --> InitServices[Initialize Services]
+    InitServices --> InitCamera[Camera Service<br/>OpenCVCamera]
+    InitServices --> InitYOLO[Vision Service<br/>YOLOVisionService]
+    InitServices --> InitTTS[Audio Service<br/>Pyttsx3TTS]
+    InitServices --> InitVosk[Speech Recognition<br/>VoskSpeechRecognition]
+    
+    InitCamera --> WarmUp[Warm Up YOLO Model]
+    InitYOLO --> WarmUp
+    InitTTS --> WarmUp
+    InitVosk --> WarmUp
+    
+    WarmUp --> TTSReady[TTS: 'Ready, Say start']
+    TTSReady --> StartListening[Start Voice Recognition Thread]
+    
+    StartListening --> ListenLoop{Listening for<br/>Trigger Words}
+    
+    ListenLoop -->|Microphone Input| VoskProcessing[Vosk Processes Audio]
+    VoskProcessing --> RecognizeText{Text Recognized?}
+    
+    RecognizeText -->|No| ListenLoop
+    RecognizeText -->|Yes| CheckTrigger{Contains Trigger Word?<br/>start, detect, see, look}
+    
+    CheckTrigger -->|No| ListenLoop
+    CheckTrigger -->|Yes| CheckCooldown{Cooldown Active?<br/>3 seconds}
+    
+    CheckCooldown -->|Yes| ListenLoop
+    CheckCooldown -->|No| VoiceCommand[Voice Command Detected]
+    
+    VoiceCommand --> UpdateCooldown[Update Last Detection Time]
+    UpdateCooldown --> StartDetection[Start Detection Thread]
+    
+    StartDetection --> TTSDetecting[TTS: 'Detecting']
+    TTSDetecting --> OpenCamera[Open Camera]
+    OpenCamera --> CaptureFrame[Capture Single Frame]
+    
+    CaptureFrame --> YOLOProcess[YOLO Processes Frame]
+    YOLOProcess --> DetectObjects[Detect Objects<br/>Confidence > 0.5]
+    
+    DetectObjects --> CreateDetections[Create Detection Objects<br/>class_name, confidence, bbox]
+    CreateDetections --> GroupObjects[Group by Class Name<br/>Count Objects]
+    
+    GroupObjects --> GenerateDesc[Generate Natural Language<br/>Description UseCase]
+    
+    GenerateDesc --> CheckCount{How Many Objects?}
+    CheckCount -->|0| NoObjects[Description: 'I don't see<br/>anything clearly']
+    CheckCount -->|1| SingleObject[Description: 'I see a person']
+    CheckCount -->|2| TwoObjects[Description: 'I see a person<br/>and a laptop']
+    CheckCount -->|3+| MultiObjects[Description: 'I see a person,<br/>a laptop, and 2 cups']
+    
+    NoObjects --> Speak[TTS Speaks Description]
+    SingleObject --> Speak
+    TwoObjects --> Speak
+    MultiObjects --> Speak
+    
+    Speak --> ReleaseCamera[Release Camera]
+    ReleaseCamera --> UpdateUI[Update UI Status]
+    UpdateUI --> BackToListening[Back to Listening Mode]
+    
+    BackToListening --> ListenLoop
+    
+    style Start fill:#4CAF50
+    style ListenLoop fill:#2196F3
+    style VoiceCommand fill:#FF9800
+    style YOLOProcess fill:#9C27B0
+    style Speak fill:#F44336
+    style BackToListening fill:#4CAF50
