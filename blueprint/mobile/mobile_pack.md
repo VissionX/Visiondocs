@@ -1,231 +1,231 @@
-# Blueprint Pack — VisionX Mobile
+# VisionX – Architecture & Build Documentation
 
-This section provides **all technical blueprints** required to start implementing VisionX Mobile immediately. Each blueprint is implementation-agnostic and focuses on *flow, responsibility, and contracts*.
+> This document describes the **actual system architecture, execution flow, and build process** for VisionX (Makfouf Assist). It is written to be used as a long-term reference and onboarding document.
 
 ---
 
-## 1. System Architecture Blueprint
+## 1. System Philosophy
 
-```mermaid
-graph TD
-    Camera --> VisionPreprocess
-    VisionPreprocess --> ObjectDetection
+VisionX is a **local-first perception system** designed to assist visually impaired users by interpreting the environment using computer vision and audio, then translating that understanding into actionable feedback.
 
-    Microphone --> AudioPreprocess
-    AudioPreprocess --> SpeechRecognition
+**Key principle:**
 
-    ObjectDetection --> ContextEngine
-    SpeechRecognition --> ContextEngine
+* Python is the *perception and decision engine*
+* Mobile app is the *interaction layer*
+* No cloud dependency
+* Privacy-first
 
-    ContextEngine --> DecisionEngine
-    DecisionEngine --> AudioOutput
-    DecisionEngine --> HapticOutput
+---
+
+## 2. High-Level Architecture
+
 ```
-
-### Responsibilities
-
-* VisionPreprocess: resize, normalize, frame sampling
-* ObjectDetection: TFLite YOLO inference
-* AudioPreprocess: framing, noise handling
-* SpeechRecognition: command-level ASR
-* ContextEngine: spatial + priority reasoning
-* DecisionEngine: converts context into actions
-
----
-
-## 2. Runtime Sequence Blueprint
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant App
-    participant Camera
-    participant Mic
-    participant Vision
-    participant ASR
-    participant Context
-    participant TTS
-
-    User->>App: Launch
-    App->>Camera: Start stream
-    App->>Mic: Start listening
-
-    Camera->>Vision: Frame
-    Vision->>Context: Objects + positions
-
-    Mic->>ASR: Audio frames
-    ASR->>Context: Command / intent
-
-    Context->>TTS: Spoken feedback
-    TTS->>User: Audio output
+┌───────────────────────────┐
+│        Mobile UI          │
+│  (Android Native)         │
+│                           │
+│  - Buttons / Voice        │
+│  - Screen Reader          │
+│  - Haptics                │
+└─────────────┬─────────────┘
+              │ Local IPC (HTTP)
+┌─────────────▼─────────────┐
+│     VisionX Engine        │
+│        (Python)           │
+│                           │
+│  Perception → Context →   │
+│  Decision → Output        │
+└───────────────────────────┘
 ```
 
 ---
 
-## 3. Data Flow Blueprint
+## 3. Repository Layout
 
-```mermaid
-graph LR
-    RawVideo -->|Frames| VisionDSP
-    VisionDSP -->|Tensor| DetectionModel
-    DetectionModel -->|Objects| Context
-
-    RawAudio -->|Frames| AudioDSP
-    AudioDSP -->|Features| ASRModel
-    ASRModel -->|Intent| Context
-
-    Context -->|Decision| Output
 ```
-
----
-
-## 4. Folder Structure Blueprint
-
-```text
-VisionX-Mobile/
-├── app/
-│   └── main.py            # App entry point
+visionx/
+│
+├── app.py                     # Entry point
+├── requirements.txt
+├── buildozer.spec
+│
 ├── perception/
+│   ├── __init__.py
 │   ├── vision/
+│   │   ├── __init__.py
 │   │   ├── camera.py
 │   │   ├── preprocess.py
 │   │   └── detector.py
 │   └── audio/
+│       ├── __init__.py
 │       ├── mic.py
 │       ├── preprocess.py
 │       └── asr.py
+│
 ├── core/
+│   ├── __init__.py
 │   ├── context.py
 │   ├── decision.py
 │   └── state.py
+│
 ├── output/
+│   ├── __init__.py
 │   ├── speech.py
 │   └── haptics.py
-├── models/
-│   ├── yolo.tflite
-│   └── vosk/
-├── system/
-│   ├── config.py
-│   └── logger.py
-└── docs/
-    ├── architecture.md
-    ├── flow.md
-    └── sequences.md
+│
+├── api/
+│   ├── __init__.py
+│   └── server.py
+│
+└── models/
+    ├── yolo.tflite
+    └── labels.txt
 ```
 
 ---
 
-## 5. Core State Machine Blueprint
+## 4. Runtime Execution Flow
 
-```mermaid
-stateDiagram-v2
-    [*] --> Idle
-    Idle --> Listening
-    Listening --> Detecting
-    Detecting --> Speaking
-    Speaking --> Idle
+### App Startup
 
-    Detecting --> Error
-    Error --> Idle
+```
+Android Launch
+ ↓
+Permissions Check
+ ↓
+Start Python Interpreter
+ ↓
+Load Models (TFLite / ASR)
+ ↓
+Start Local API Server
+ ↓
+UI Ready
+```
+
+### Detection Sequence
+
+```
+User Trigger
+ ↓
+UI → POST /detect
+ ↓
+Camera Capture
+ ↓
+Vision Inference
+ ↓
+Context Analysis
+ ↓
+Decision Engine
+ ↓
+Narration Builder
+ ↓
+JSON Response
+ ↓
+UI Output (Speech / Haptics)
 ```
 
 ---
 
-## 6. Audio Processing Blueprint (DSP → ASR)
+## 5. Python Engine Internal Flow
 
-```mermaid
-graph TD
-    Mic --> ADC
-    ADC --> Framing
-    Framing --> Windowing
-    Windowing --> Features
-    Features --> ASR
-```
+### Perception Layer
 
-* Windowing: Hamming / Hann
-* Features: MFCC (default)
-* Output: phoneme probabilities → words
+* Camera frame capture
+* Resize / normalize
+* Model inference (YOLO TFLite)
 
----
+### Context Layer
 
-## 7. Vision Processing Blueprint
+* Object priority
+* Direction estimation
+* Distance approximation
 
-```mermaid
-graph TD
-    Camera --> Resize
-    Resize --> Normalize
-    Normalize --> Tensor
-    Tensor --> YOLO
-    YOLO --> Objects
-```
+### Decision Layer
+
+* Filter noise
+* Resolve conflicts
+* Select response strategy
+
+### Output Layer
+
+* Natural language generation
+* TTS
+* Optional vibration patterns
 
 ---
 
-## 8. Decision Logic Blueprint
+## 6. API Contract Example
 
-```mermaid
-graph TD
-    Objects --> PriorityFilter
-    PriorityFilter --> DirectionAnalysis
-    DirectionAnalysis --> Decision
-    Decision --> Speak
+**Request:**
+
+```
+POST /detect
 ```
 
-Rules:
+**Response:**
 
-* Distance < Direction < Type
-* One message at a time
-
----
-
-## 9. Accessibility Contract
-
-```mermaid
-graph LR
-    Event -->|Short message| TTS
-    TTS --> User
-```
-
-Constraints:
-
-* Max sentence length: 5 words
-* No visual dependency
-
----
-
-## 10. Implementation Order (Critical)
-
-```text
-1. Camera capture
-2. Audio output (TTS)
-3. Object detection
-4. Context engine
-5. Speech recognition
-6. Decision refinement
+```json
+{
+  "narration": "شخص أمامك على بعد مترين",
+  "priority": "high",
+  "objects": [
+    {
+      "label": "person",
+      "direction": "front",
+      "distance": "near"
+    }
+  ]
+}
 ```
 
 ---
 
-## 11. Future Extension Hooks
+## 7. Build Process (Buildozer)
 
-```mermaid
-graph TD
-    Context --> GPS
-    Context --> OCR
-    Context --> Navigation
-```
+### Development Phase
+
+* Python runs directly
+* Full logging
+* Uncompressed models
+
+### Build Phase
+
+* Freeze dependencies
+* Package Python interpreter
+* Bundle models
+* Generate APK / AAB
+
+### Runtime on Device
+
+* Python runs as local process
+* API exposed on localhost
+* UI communicates internally
 
 ---
 
-## 12. Definition of "Done"
+## 8. Why This Architecture Works
 
-* App runs offline
-* Detects obstacles
-* Speaks clearly
-* No visual UI needed
-* Stable for daily use
+* Clear separation of concerns
+* Replaceable UI or engine
+* Future migration to C++ possible
+* Suitable for MVP and research
 
 ---
 
-This blueprint pack is the **source of truth**. All implementations must conform to these flows, not the opposite.
+## 9. Future Extensions
+
+* GPS integration
+* OCR module
+* Spatial audio
+* Edge TPU / NNAPI acceleration
+
+---
+
+## 10. Mental Model Summary
+
+VisionX is not a mobile app.
+
+It is a **perception system** deployed inside a mobile environment.
+
+The mobile device is the container, not the brain.
 
