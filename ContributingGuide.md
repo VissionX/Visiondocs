@@ -489,7 +489,7 @@ If you understand this document, you are ready to contribute.
 
 ## Additional Resources
 
-- [Documentation](https://vissionx.github.io/VisionX-Website/doc.html)
+- [Documentation](https://vissionx.github.io/VisionX-Website/docs.html)
 - ~[Community](#)~ _Coming Soon_
 - [GitHub Issues](https://github.com/VissionX/VisionX/issues)
 - [GitHub Discussions](#)
