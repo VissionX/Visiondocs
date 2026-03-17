@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Abserny — Figures Master Checklist</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background:#fff; color:#1a1a18; padding:32px; max-width:860px; margin:0 auto; }
+  h1 { font-size:20px; font-weight:500; margin:0 0 4px; }
+  .sub { font-size:13px; color:#888780; margin:0 0 28px; }
+  .sec { margin-bottom:24px; }
+  .sec-title { font-size:11px; font-weight:500; color:#888780; letter-spacing:.08em; text-transform:uppercase; margin:0 0 10px; }
+  .row { display:grid; grid-template-columns:80px 1fr 130px 130px; gap:8px; align-items:start; padding:9px 0; border-bottom:0.5px solid #e8e6df; font-size:13px; }
+  .row:last-child { border-bottom:none; }
+  .fig { font-weight:500; color:#1a1a18; white-space:nowrap; }
+  .desc { color:#1a1a18; line-height:1.4; }
+  .dsub { color:#888780; font-size:11px; margin-top:2px; }
+  .type { color:#888780; font-size:11px; padding-top:2px; }
+  .badge { display:inline-block; font-size:10px; font-weight:500; padding:2px 9px; border-radius:4px; }
+  .gen  { background:#e1f5ee; color:#0f6e56; }
+  .ss   { background:#faeeda; color:#854f0b; }
+  .done { background:#e6f1fb; color:#185fa5; }
+  .legend { display:flex; gap:16px; flex-wrap:wrap; font-size:12px; color:#5f5e5a; margin-top:20px; padding-top:16px; border-top:0.5px solid #e8e6df; }
+  .legend span { display:flex; align-items:center; gap:6px; }
+</style>
+</head>
+<body>
+<h1>Abserny — figures master checklist</h1>
+<p class="sub">28 figures across 5 chapters · graduation book 2025–2026</p>
+
+<div class="sec">
+<div class="sec-title">Chapter 1 — Introduction</div>
+<div class="row"><span class="fig">Fig 1.1</span><div class="desc">Overview of Abserny interface<div class="dsub">App screenshot showing main UI</div></div><span class="type">Screenshot</span><span><span class="badge ss">Need screenshot</span></span></div>
+</div>
+
+<div class="sec">
+<div class="sec-title">Chapter 2 — Literature review</div>
+<div class="row"><span class="fig">Fig 2.1</span><div class="desc">CNN architecture for image feature extraction<div class="dsub">Conv layers → pooling → FC → softmax</div></div><span class="type">Diagram</span><span><span class="badge gen">Generated</span></span></div>
+<div class="row"><span class="fig">Fig 2.2</span><div class="desc">MobileNetV2 inverted residual block<div class="dsub">Expand → depthwise → project + skip</div></div><span class="type">Diagram</span><span><span class="badge gen">Generated</span></span></div>
+<div class="row"><span class="fig">Fig 2.3</span><div class="desc">Transfer learning: ImageNet → AbserneyVision<div class="dsub">Frozen base + new classification head</div></div><span class="type">Diagram</span><span><span class="badge gen">Generated</span></span></div>
+<div class="row"><span class="fig">Fig 2.4</span><div class="desc">TTS pipeline in mobile applications<div class="dsub">Text → useVoice queue → expo-speech → audio</div></div><span class="type">Diagram</span><span><span class="badge gen">Generated</span></span></div>
+<div class="row"><span class="fig">Fig 2.5</span><div class="desc">WCAG 2.1 four-principle (POUR) framework<div class="dsub">P-O-U-R mapped to Abserny implementation</div></div><span class="type">Diagram</span><span><span class="badge gen">Generated</span></span></div>
+</div>
+
+<div class="sec">
+<div class="sec-title">Chapter 3 — Methodology &amp; design</div>
+<div class="row"><span class="fig">Fig 3.1</span><div class="desc">High-level system architecture — 4-layer pipeline<div class="dsub">Input → Perception → Intelligence → Output</div></div><span class="type">Structural</span><span><span class="badge gen">Generated</span></span></div>
+<div class="row"><span class="fig">Fig 3.2</span><div class="desc">Application state machine diagram<div class="dsub">BOOT / READY / SCANNING / SPEAKING / WATCH / ERROR</div></div><span class="type">Flowchart</span><span><span class="badge gen">Generated</span></span></div>
+<div class="row"><span class="fig">Fig 3.3</span><div class="desc">Use case diagram — Abserny system<div class="dsub">User + AI backend actors · 4 use cases</div></div><span class="type">UML</span><span><span class="badge gen">Generated</span></span></div>
+<div class="row"><span class="fig">Fig 3.4</span><div class="desc">Sequence diagram — scan flow<div class="dsub">User → Gestures → App.js → Detection → Voice</div></div><span class="type">UML</span><span><span class="badge gen">Generated</span></span></div>
+<div class="row"><span class="fig">Fig 3.5</span><div class="desc">Gesture interaction model<div class="dsub">6 gestures · thresholds · resulting actions</div></div><span class="type">Diagram</span><span><span class="badge gen">Generated</span></span></div>
+<div class="row"><span class="fig">Fig 3.6</span><div class="desc">Online vs. offline detection routing<div class="dsub">Decision flow: keys / connectivity / fallback path</div></div><span class="type">Flowchart</span><span><span class="badge gen">Generated</span></span></div>
+<div class="row"><span class="fig">Fig 3.7</span><div class="desc">Watch Mode frame loop &amp; suppression logic<div class="dsub">Capture → CLEAR → Jaccard → hazard bypass</div></div><span class="type">Flowchart</span><span><span class="badge gen">Generated</span></span></div>
+</div>
+
+<div class="sec">
+<div class="sec-title">Chapter 4 — Implementation (code &amp; architecture)</div>
+<div class="row"><span class="fig">Fig 4.1</span><div class="desc">Project directory structure<div class="dsub">File tree: hooks/, assets/, App.js etc.</div></div><span class="type">Screenshot</span><span><span class="badge ss">Need screenshot</span></span></div>
+<div class="row"><span class="fig">Fig 4.2</span><div class="desc">useGestures.js — gesture recognition hook<div class="dsub">PanResponder.create() block in VS Code</div></div><span class="type">Screenshot</span><span><span class="badge ss">Need screenshot</span></span></div>
+<div class="row"><span class="fig">Fig 4.3</span><div class="desc">useVoice.js — speech queue implementation<div class="dsub">Queue logic + genRef counter in VS Code</div></div><span class="type">Screenshot</span><span><span class="badge ss">Need screenshot</span></span></div>
+<div class="row"><span class="fig">Fig 4.4</span><div class="desc">Gemini API request structure<div class="dsub">Base64 image + prompt + generationConfig → response</div></div><span class="type">Diagram</span><span><span class="badge gen">Generated</span></span></div>
+</div>
+
+<div class="sec">
+<div class="sec-title">Chapter 4 — App UI screenshots (from device)</div>
+<div class="row"><span class="fig">Fig 4.1*</span><div class="desc">App — READY state<div class="dsub">Camera feed · cyan brackets · mode pills · pulse ring</div></div><span class="type">Screenshot</span><span><span class="badge ss">Need screenshot</span></span></div>
+<div class="row"><span class="fig">Fig 4.2*</span><div class="desc">App — SCANNING state<div class="dsub">Animated scan line moving across camera feed</div></div><span class="type">Screenshot</span><span><span class="badge ss">Need screenshot</span></span></div>
+<div class="row"><span class="fig">Fig 4.3*</span><div class="desc">App — SPEAKING state<div class="dsub">Result text displayed · bouncing dots</div></div><span class="type">Screenshot</span><span><span class="badge ss">Need screenshot</span></span></div>
+<div class="row"><span class="fig">Fig 4.7b</span><div class="desc">Watch Mode active — breathing ring + LIVE badge<div class="dsub">Outer green ring pulsing · LIVE indicator</div></div><span class="type">Screenshot</span><span><span class="badge ss">Need screenshot</span></span></div>
+<div class="row"><span class="fig">Fig 4.7c</span><div class="desc">Arabic RTL mode — onboarding picker<div class="dsub">Arabic language selected · RTL text layout</div></div><span class="type">Screenshot</span><span><span class="badge ss">Need screenshot</span></span></div>
+</div>
+
+<div class="sec">
+<div class="sec-title">Chapter 4 — ML model &amp; benchmarks</div>
+<div class="row"><span class="fig">Fig 4.8</span><div class="desc">AbserneyVision training curves (Phase 1 &amp; 2)<div class="dsub">Accuracy + loss vs. epoch — export from PyTorch training logs</div></div><span class="type">Chart</span><span><span class="badge ss">From training logs</span></span></div>
+<div class="row"><span class="fig">Fig 4.9</span><div class="desc">Confusion matrix — AbserneyVision validation set<div class="dsub">13×13 heatmap — export from model evaluation</div></div><span class="type">Chart</span><span><span class="badge ss">From training logs</span></span></div>
+<div class="row"><span class="fig">Fig 4.10</span><div class="desc">End-to-end latency histogram — 50 scan trials<div class="dsub">Distribution of total latency measurements</div></div><span class="type">Chart</span><span><span class="badge done">In benchmark HTML</span></span></div>
+<div class="row"><span class="fig">Fig 4.11</span><div class="desc">Gesture recognition pass rates<div class="dsub">Bar chart — 6 gestures × 20 trials each</div></div><span class="type">Chart</span><span><span class="badge done">In benchmark HTML</span></span></div>
+<div class="row"><span class="fig">Fig 4.12</span><div class="desc">AI output quality — 4 criteria<div class="dsub">Bar chart — 100 test frames · Scene mode</div></div><span class="type">Chart</span><span><span class="badge done">In benchmark HTML</span></span></div>
+<div class="row"><span class="fig">Fig 4.13</span><div class="desc">Latency comparison vs. competitors<div class="dsub">Abserny vs. Lookout, Seeing AI, Envision, Be My Eyes</div></div><span class="type">Chart</span><span><span class="badge done">In benchmark HTML</span></span></div>
+</div>
+
+<div class="legend">
+  <span><span class="badge gen">Generated</span> Drawn as SVG — right-click → save image, or print to PDF and crop</span>
+  <span><span class="badge ss">Need screenshot</span> Take from device, VS Code, or PyTorch training output</span>
+  <span><span class="badge done">In benchmark HTML</span> Already in abserny_benchmarks.html — screenshot the chart</span>
+</div>
+
+</body>
+</html>

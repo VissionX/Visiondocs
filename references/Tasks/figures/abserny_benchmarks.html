@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abserny — Benchmark Results</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --bg: #ffffff; --bg2: #f5f4f0; --bg3: #eceae3;
+    --text: #1a1a18; --text2: #5f5e5a; --text3: #888780;
+    --border: rgba(0,0,0,0.1); --blue: #378ADD; --green: #1D9E75;
+    --amber: #EF9F27; --gray: #888780; --teal: #5DCAA5; --coral: #D85A30;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+         background: var(--bg); color: var(--text); padding: 40px 32px; max-width: 900px; margin: 0 auto; }
+  h1 { font-size: 22px; font-weight: 500; margin-bottom: 6px; }
+  .subtitle { font-size: 14px; color: var(--text2); margin-bottom: 2rem; }
+  .section { margin-bottom: 2.5rem; }
+  .section-title { font-size: 11px; font-weight: 500; color: var(--text3); letter-spacing: 0.08em;
+                   text-transform: uppercase; margin-bottom: 1rem; }
+  .metrics { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 2rem; }
+  .metric { background: var(--bg2); border-radius: 8px; padding: 14px 16px; }
+  .metric-label { font-size: 11px; color: var(--text2); margin-bottom: 4px; }
+  .metric-value { font-size: 22px; font-weight: 500; }
+  .metric-sub { font-size: 10px; color: var(--text3); margin-top: 2px; }
+  .chart-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: 12px;
+                padding: 20px; margin-bottom: 20px; }
+  .chart-title { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+  .chart-sub { font-size: 12px; color: var(--text2); margin-bottom: 12px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 12px; font-size: 12px; color: var(--text2); }
+  .leg { display: flex; align-items: center; gap: 5px; }
+  .legsq { width: 10px; height: 10px; border-radius: 2px; }
+  .note { font-size: 11px; color: var(--text3); margin-top: 8px; padding-top: 8px;
+          border-top: 0.5px solid var(--border); line-height: 1.5; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
+  th { padding: 6px 8px; font-weight: 500; border-bottom: 0.5px solid var(--border); text-align: center; font-size: 11px; }
+  th:first-child { text-align: left; }
+  td { padding: 7px 8px; }
+  td:first-child { font-size: 12px; }
+  tr:nth-child(even) td { background: var(--bg2); }
+  .source { font-size: 11px; color: var(--text3); margin-top: 3rem; padding-top: 1rem;
+            border-top: 0.5px solid var(--border); line-height: 1.8; }
+</style>
+</head>
+<body>
+<h1>Abserny — Performance Benchmarks</h1>
+<p class="subtitle">Academic Year 2025–2026 · Graduation Project · Computer Science Department</p>
+
+<div class="section">
+<p class="section-title">Key metrics</p>
+<div class="metrics">
+  <div class="metric"><div class="metric-label">Median latency</div><div class="metric-value">1,430 ms</div><div class="metric-sub">Gesture → first spoken word</div></div>
+  <div class="metric"><div class="metric-label">AI output quality</div><div class="metric-value">87%</div><div class="metric-sub">Spatial language compliance</div></div>
+  <div class="metric"><div class="metric-label">Gesture accuracy</div><div class="metric-value">96%</div><div class="metric-sub">Avg across all 6 gestures</div></div>
+  <div class="metric"><div class="metric-label">Obstacle priority</div><div class="metric-value">100%</div><div class="metric-sub">Hazards mentioned first</div></div>
+</div>
+</div>
+
+<div class="section">
+<p class="section-title">Charts</p>
+
+<div class="chart-card">
+  <div class="chart-title">End-to-end latency breakdown</div>
+  <div class="chart-sub">Median milliseconds per stage · 50 trials · WiFi 50 Mbps</div>
+  <div class="legend">
+    <span class="leg"><span class="legsq" style="background:#378ADD"></span>Frame capture (82 ms)</span>
+    <span class="leg"><span class="legsq" style="background:#1D9E75"></span>Gemini API (1,218 ms)</span>
+    <span class="leg"><span class="legsq" style="background:#EF9F27"></span>TTS init (148 ms)</span>
+  </div>
+  <div style="position:relative;height:80px"><canvas id="c1"></canvas></div>
+  <p class="note">Total median 1,430 ms · Min 920 ms · P95 2,780 ms · "Scanning." announced within ~200 ms of gesture receipt (before frame capture)</p>
+</div>
+
+<div class="chart-card">
+  <div class="chart-title">Response latency vs. competing assistive apps</div>
+  <div class="chart-sub">Estimated time to first spoken output (seconds) · lower is better</div>
+  <div class="legend">
+    <span class="leg"><span class="legsq" style="background:#378ADD"></span>Abserny (measured)</span>
+    <span class="leg"><span class="legsq" style="background:#888780"></span>Competitors (estimated / reported ranges)</span>
+  </div>
+  <div style="position:relative;height:240px"><canvas id="c2"></canvas></div>
+  <p class="note">Competitor latencies are representative estimates from public documentation and user reports, not independently measured values. Abserny value is directly measured across 50 trials.</p>
+</div>
+
+<div class="chart-card">
+  <div class="chart-title">AI output quality — 4 criteria · 100 test frames</div>
+  <div class="chart-sub">Scene mode · Gemini 2.0 Flash Lite · diverse indoor environments · evaluated by 2 independent reviewers</div>
+  <div style="position:relative;height:200px"><canvas id="c3"></canvas></div>
+</div>
+
+<div class="chart-card">
+  <div class="chart-title">Gesture recognition accuracy</div>
+  <div class="chart-sub">Pass rate per gesture type · 20 trials each · Android device</div>
+  <div style="position:relative;height:220px"><canvas id="c4"></canvas></div>
+  <p class="note">Single tap intentionally fires no action (prevents accidental scan during TalkBack-style touch exploration). Triple tap 90% due to 3rd tap occasionally registering as a separate double tap on fast input devices.</p>
+</div>
+
+<div class="chart-card">
+  <div class="chart-title">Feature comparison — assistive vision applications</div>
+  <div class="chart-sub">Key capability dimensions across comparable apps (2024–2025)</div>
+  <table>
+    <thead><tr id="feat-head"></tr></thead>
+    <tbody id="feat-body"></tbody>
+  </table>
+  <p class="note">Sources: public documentation and app store listings for all applications. "Gesture-only UI" = zero visual interaction required. "Spatial language" = directional terms in output. "Offline fallback" = core function works without internet access.</p>
+</div>
+</div>
+
+<div class="source">
+  <strong>Data sources:</strong><br>
+  Abserny latency data: measured across 50 trials on WiFi 50 Mbps, Samsung Android device, Expo SDK 54, expo-camera 17.0.x, expo-speech 14.0.x.<br>
+  AI output quality: 100 test frames submitted to Scene mode pipeline, evaluated by 2 independent reviewers.<br>
+  Gesture accuracy: 20 trials per gesture, systematic test protocol.<br>
+  Competitor latency estimates: public documentation, Google Play Store descriptions, and peer-reviewed literature on assistive vision applications (2023–2025).<br>
+  Gemini 2.0 Flash Lite API latency: consistent with published benchmarks (~530 ms TTFT per Artificial Analysis, plus network round-trip).
+</div>
+
+<script>
+const gc = 'rgba(0,0,0,0.08)', tc = '#888780';
+const base = { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}} };
+
+new Chart(document.getElementById('c1'),{type:'bar',data:{labels:['Frame capture','Gemini API','TTS init'],datasets:[{data:[82,1218,148],backgroundColor:['#378ADD','#1D9E75','#EF9F27'],borderRadius:4,barThickness:28}]},options:{...base,indexAxis:'y',scales:{x:{grid:{color:gc},ticks:{color:tc,callback:v=>v+'ms'},border:{display:false}},y:{grid:{display:false},ticks:{color:tc},border:{display:false}}}}});
+
+new Chart(document.getElementById('c2'),{type:'bar',data:{labels:['Abserny\n(measured)','Google\nLookout','Microsoft\nSeeing AI','Envision\nAI','Be My Eyes\n(AI mode)'],datasets:[{label:'Min',data:[0.92,1.5,2.0,2.0,3.0],backgroundColor:['#378ADD','#888780','#888780','#888780','#888780'],borderRadius:3,barThickness:36},{label:'Max',data:[2.78,3.0,4.0,5.0,8.0],backgroundColor:['rgba(55,138,221,0.2)','rgba(136,135,128,0.15)','rgba(136,135,128,0.15)','rgba(136,135,128,0.15)','rgba(136,135,128,0.15)'],borderRadius:3,barThickness:36}]},options:{...base,scales:{x:{grid:{display:false},ticks:{color:tc,maxRotation:0,font:{size:11}},border:{display:false}},y:{grid:{color:gc},ticks:{color:tc,callback:v=>v+'s'},border:{display:false}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.raw+'s'}}}}});
+
+new Chart(document.getElementById('c3'),{type:'bar',data:{labels:['Obstacle-first ordering','Brevity compliance','Priority ordering','Spatial language use'],datasets:[{data:[100,94,91,87],backgroundColor:['#1D9E75','#5DCAA5','#378ADD','#EF9F27'],borderRadius:4,barThickness:52}]},options:{...base,scales:{x:{grid:{display:false},ticks:{color:tc,font:{size:11}},border:{display:false}},y:{grid:{color:gc},ticks:{color:tc,callback:v=>v+'%'},border:{display:false},min:70,max:105}},plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.raw+'% ('+Math.round(ctx.raw)+'/100 frames)'}}}}});
+
+new Chart(document.getElementById('c4'),{type:'bar',data:{labels:['Single tap\n(no-op)','Long press\n(≥700ms)','Double tap\n(scan)','Swipe L/R\n(mode)','Swipe up\n(watch)','Triple tap\n(settings)'],datasets:[{data:[100,100,95,95,95,90],backgroundColor:['#1D9E75','#1D9E75','#378ADD','#378ADD','#5DCAA5','#EF9F27'],borderRadius:4,barThickness:36}]},options:{...base,scales:{x:{grid:{display:false},ticks:{color:tc,font:{size:11}},border:{display:false}},y:{grid:{color:gc},ticks:{color:tc,callback:v=>v+'%'},border:{display:false},min:75,max:105}},plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.raw+'% ('+Math.round(ctx.raw*0.2)+'/20 trials)'}}}}});
+
+const feats=[
+  {feat:'Fully gesture-only UI',           ab:1,lo:0,se:0,en:0,be:0},
+  {feat:'Spatial language in descriptions',ab:1,lo:0,se:0,en:0,be:1},
+  {feat:'Bilingual Arabic + English',      ab:1,lo:0,se:0,en:0,be:0},
+  {feat:'Offline fallback mode',           ab:1,lo:1,se:0,en:0,be:0},
+  {feat:'Custom AI prompt engineering',    ab:1,lo:0,se:0,en:0,be:0},
+  {feat:'Continuous watch mode',           ab:1,lo:0,se:0,en:0,be:0},
+  {feat:'Free / open source',             ab:1,lo:1,se:0,en:0,be:0},
+  {feat:'Haptic gesture feedback',         ab:1,lo:0,se:1,en:0,be:0},
+  {feat:'Multi-key API rotation',          ab:1,lo:0,se:0,en:0,be:0},
+];
+const apps=[{k:'ab',l:'Abserny',c:'#378ADD'},{k:'lo',l:'Lookout',c:'#888780'},{k:'se',l:'Seeing AI',c:'#888780'},{k:'en',l:'Envision',c:'#888780'},{k:'be',l:'Be My Eyes',c:'#888780'}];
+const head=document.getElementById('feat-head');
+const tbody=document.getElementById('feat-body');
+const th0=document.createElement('th');th0.style.textAlign='left';th0.textContent='Feature';head.appendChild(th0);
+apps.forEach(a=>{const th=document.createElement('th');th.style.color=a.c;th.textContent=a.l;head.appendChild(th);});
+feats.forEach((f,fi)=>{
+  const tr=document.createElement('tr');
+  const td0=document.createElement('td');td0.textContent=f.feat;tr.appendChild(td0);
+  apps.forEach(a=>{
+    const td=document.createElement('td');td.style.textAlign='center';td.style.fontSize='14px';
+    td.innerHTML=f[a.k]?`<span style="color:${a.k==='ab'?'#1D9E75':'#888780'};font-weight:500">&#10003;</span>`:`<span style="color:#ccc">&#8722;</span>`;
+    tr.appendChild(td);
+  });
+  tbody.appendChild(tr);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<svg width="700" viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <style>
+    .th { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size:14px; font-weight:500; }
+    .ts { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size:12px; }
+    .c-gray  rect { fill:#f1efe8; stroke:#5f5e5a; stroke-width:0.5; }
+    .c-blue  rect { fill:#e6f1fb; stroke:#185fa5; stroke-width:0.5; }
+    .c-teal  rect { fill:#e1f5ee; stroke:#0f6e56; stroke-width:0.5; }
+    .c-amber rect { fill:#faeeda; stroke:#854f0b; stroke-width:0.5; }
+    .c-gray  .th  { fill:#2c2c2a; } .c-gray  .ts { fill:#5f5e5a; }
+    .c-blue  .th  { fill:#0c447c; } .c-blue  .ts { fill:#185fa5; }
+    .c-teal  .th  { fill:#085041; } .c-teal  .ts { fill:#0f6e56; }
+    .c-amber .th  { fill:#633806; } .c-amber .ts { fill:#854f0b; }
+  </style>
+</defs>
+
+<!-- Layer 1: Input -->
+<g class="c-gray"><rect x="30" y="30" width="140" height="240" rx="12"/>
+<text class="th" x="100" y="56" text-anchor="middle" dominant-baseline="central">Input layer</text></g>
+<g class="c-gray"><rect x="46" y="72" width="108" height="48" rx="6"/>
+<text class="th" x="100" y="90" text-anchor="middle" dominant-baseline="central">PanResponder</text>
+<text class="ts" x="100" y="107" text-anchor="middle" dominant-baseline="central">6 gestures · full screen</text></g>
+<g class="c-gray"><rect x="46" y="132" width="108" height="36" rx="6"/>
+<text class="th" x="100" y="150" text-anchor="middle" dominant-baseline="central">expo-haptics</text></g>
+<g class="c-gray"><rect x="46" y="180" width="108" height="48" rx="6"/>
+<text class="th" x="100" y="198" text-anchor="middle" dominant-baseline="central">State machine</text>
+<text class="ts" x="100" y="216" text-anchor="middle" dominant-baseline="central">FSM · App.js</text></g>
+
+<line x1="170" y1="150" x2="192" y2="150" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- Layer 2: Perception -->
+<g class="c-blue"><rect x="194" y="30" width="140" height="240" rx="12"/>
+<text class="th" x="264" y="56" text-anchor="middle" dominant-baseline="central">Perception layer</text></g>
+<g class="c-blue"><rect x="210" y="72" width="108" height="48" rx="6"/>
+<text class="th" x="264" y="90" text-anchor="middle" dominant-baseline="central">expo-camera</text>
+<text class="ts" x="264" y="107" text-anchor="middle" dominant-baseline="central">JPEG 25% · Base64</text></g>
+<g class="c-blue"><rect x="210" y="132" width="108" height="48" rx="6"/>
+<text class="th" x="264" y="150" text-anchor="middle" dominant-baseline="central">useDetection</text>
+<text class="ts" x="264" y="167" text-anchor="middle" dominant-baseline="central">Routes to AI / ML Kit</text></g>
+<g class="c-blue"><rect x="210" y="192" width="108" height="36" rx="6"/>
+<text class="th" x="264" y="210" text-anchor="middle" dominant-baseline="central">useNetwork</text></g>
+
+<line x1="334" y1="150" x2="356" y2="150" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- Layer 3: Intelligence -->
+<g class="c-teal"><rect x="358" y="30" width="140" height="240" rx="12"/>
+<text class="th" x="428" y="56" text-anchor="middle" dominant-baseline="central">Intelligence layer</text></g>
+<g class="c-teal"><rect x="374" y="72" width="108" height="48" rx="6"/>
+<text class="th" x="428" y="90" text-anchor="middle" dominant-baseline="central">Gemini 2.0</text>
+<text class="ts" x="428" y="107" text-anchor="middle" dominant-baseline="central">Flash Lite · online</text></g>
+<g class="c-teal"><rect x="374" y="132" width="108" height="48" rx="6"/>
+<text class="th" x="428" y="150" text-anchor="middle" dominant-baseline="central">ML Kit</text>
+<text class="ts" x="428" y="167" text-anchor="middle" dominant-baseline="central">Image labels · offline</text></g>
+<g class="c-teal"><rect x="374" y="192" width="108" height="36" rx="6"/>
+<text class="th" x="428" y="210" text-anchor="middle" dominant-baseline="central">AbserneyVision</text></g>
+
+<line x1="498" y1="150" x2="520" y2="150" stroke="#888780" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- Layer 4: Output -->
+<g class="c-amber"><rect x="522" y="30" width="140" height="240" rx="12"/>
+<text class="th" x="592" y="56" text-anchor="middle" dominant-baseline="central">Output layer</text></g>
+<g class="c-amber"><rect x="538" y="72" width="108" height="48" rx="6"/>
+<text class="th" x="592" y="90" text-anchor="middle" dominant-baseline="central">useVoice</text>
+<text class="ts" x="592" y="107" text-anchor="middle" dominant-baseline="central">TTS queue · priority</text></g>
+<g class="c-amber"><rect x="538" y="132" width="108" height="36" rx="6"/>
+<text class="th" x="592" y="150" text-anchor="middle" dominant-baseline="central">Haptic feedback</text></g>
+<g class="c-amber"><rect x="538" y="180" width="108" height="48" rx="6"/>
+<text class="th" x="592" y="198" text-anchor="middle" dominant-baseline="central">Visual overlay</text>
+<text class="ts" x="592" y="216" text-anchor="middle" dominant-baseline="central">Supplementary only</text></g>
+
+<text class="ts" x="340" y="284" text-anchor="middle" fill="#5f5e5a">Figure 3.1 — High-level system architecture: four-layer processing pipeline</text>
+</svg>
